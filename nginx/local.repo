@@ -1,0 +1,11 @@
+[centos]
+name=centos
+baseurl=ftp://192.168.100.10/centos
+gpgcheck=0
+enabled=1
+[mall]
+name=mall
+baseurl=ftp://192.168.;100.10/gmall-repo
+gpgcheck=0
+enabled=1
+## 在从节点配置本地源，然后主节点使用ftp源取共享从节点的包
