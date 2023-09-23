@@ -1,1 +1,54 @@
+version: "3"
+services:
+  mysql.mall:
+    container_name: mall-mysql
+    image: mall-mariadb:1.0
+    ports:
+      - "3077:3066"
+ 
+  redis.mall:
+    container_name: mall-redis
+    links:
+      - mysql.mall
+    depends_on:
+      - mysql.mall
+    image: mall-redis:1.0
+    ports:
+      - "6381:6379"
+ 
+  zookeeper.mall:
+    container_name: mall-zookeeper
+    links:
+      - mysql.mall
+      - redis.mall
+    image: mall-zookeeper:1.0
+    ports:
+      - "2183:2181"
+ 
+  kafka.mall:
+    container_name: mall-kafka
+    links:
+      - zookeeper.mall
+      - mysql.mall
+    depends_on:
+      - zookeeper.mall
+    image: mall-kafka:1.0
+    ports:
+      - "9094:9092"
+   
+  nginx.mall:
+    container_name: mall-nginx
+    links:
+      - mysql.mall
+      - redis.mall
+      - zookeeper.mall
+      - kafka.mall
+    image: mall-nginx:1.0
+    ports:
+      - "83:80"
+      - "1443:443"
+   command: ["sh","-c","/root/nginx/jar.sh && nginx && tail -f /etc/shadow"]
+ 
 
+docker-compose up -d # 启动，加-d是后台启动，不加可看晶晨状况
+docker-compose ps # 查看启动状况
