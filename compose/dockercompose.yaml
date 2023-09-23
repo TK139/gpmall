@@ -50,5 +50,5 @@ services:
    command: ["sh","-c","/root/nginx/jar.sh && nginx && tail -f /etc/shadow"]
  
 
-docker-compose up -d # 启动，加-d是后台启动，不加可看晶晨状况
+docker-compose up -d # 启动，加-d是后台启动，不加可看进程状况
 docker-compose ps # 查看启动状况
